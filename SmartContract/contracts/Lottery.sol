@@ -10,7 +10,7 @@ import "@chainlink/contracts/src/v0.8/vrf/interfaces/VRFCoordinatorV2Interface.s
 import "@chainlink/contracts/src/v0.8/automation/interfaces/AutomationCompatibleInterface.sol";
 
 // Uncomment this line to use console.log
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 error Lottery__NotEnoughEthEntered();
 error Lottery__TransferFailed();
@@ -129,7 +129,7 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
         emit RequestLotteryWinner(requestId);
     }
 
-    function fulfillRandomWords(
+    function fulfillRandomWords( 
         uint256 /* requestId */,
         uint256[] memory randomWords
     ) internal override {
@@ -176,5 +176,9 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
 
     function getRequestConfirmations() public pure returns (uint256) {
         return REQUEST_CONFIRMATIONS;
+    }
+    
+    function getInterval() public view returns (uint256) {
+        return i_interval;
     }
 }
