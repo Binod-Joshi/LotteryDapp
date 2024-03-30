@@ -93,7 +93,7 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
         returns (bool upkeepNeeded, bytes memory /* performData */)
     {
         bool isOpen = LotteryState.OPEN == s_lotteryState;
-        bool timePassed = ((block.timestamp - s_lastTimeStamp) > i_interval);
+        bool timePassed = (block.timestamp - s_lastTimeStamp) > i_interval;
         bool hasPlayers = s_players.length > 0;
         bool hasBalance = address(this).balance > 0;
         upkeepNeeded = (timePassed && isOpen && hasBalance && hasPlayers);
@@ -105,7 +105,7 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
      * and it kicks off a Chainlink VRF call to get a random winner.
      */
     function performUpkeep(bytes calldata /* performData */) external override {
-        (bool upKeepNeeded, ) = checkUpkeep("");
+        (bool upKeepNeeded, ) = checkUpkeep(""); // check condition by ifelse
         if (!upKeepNeeded) {
             revert Lottery__UpKeepNotNeeded(
                 address(this).balance,
